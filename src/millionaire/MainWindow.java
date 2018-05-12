@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -68,8 +69,8 @@ public class MainWindow extends javax.swing.JFrame {
         lstLevel = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         btnAudienceHelp = new javax.swing.JButton();
-        bntFiftyFifty = new javax.swing.JButton();
         btnCallFriend = new javax.swing.JButton();
+        bntFiftyFifty = new javax.swing.JButton();
         btnTakeMoney = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -130,6 +131,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         btnAudienceHelp.setText("Помощь зала");
 
+        btnCallFriend.setText("Звонок другу");
+
         bntFiftyFifty.setText("50/50");
         bntFiftyFifty.setName("bntFiftyFifty"); // NOI18N
         bntFiftyFifty.addActionListener(new java.awt.event.ActionListener() {
@@ -138,9 +141,8 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        btnCallFriend.setText("Звонок другу");
-
-        btnTakeMoney.setText("Забрать деньги");
+        btnTakeMoney.setText("Забрать\n деньги");
+        btnTakeMoney.setToolTipText("");
         btnTakeMoney.setName("btnTakeMoney"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -174,14 +176,17 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jScrollPane1)
                         .addGap(21, 21, 21))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(bntFiftyFifty)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAudienceHelp)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCallFriend)
-                        .addGap(36, 36, 36)
-                        .addComponent(btnTakeMoney))
-                    .addComponent(jLabel2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bntFiftyFifty)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAudienceHelp)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnCallFriend)
+                                .addGap(36, 36, 36)
+                                .addComponent(btnTakeMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addComponent(lblQuestionText, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -194,7 +199,21 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bntFiftyFiftyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntFiftyFiftyActionPerformed
-
+        JButton[] btns = new JButton[]{btnAnswer1, btnAnswer2, btnAnswer3, btnAnswer4};
+        
+        int count =0;
+        while(count<2)
+        {
+            int n = rnd.nextInt(4);
+            String ac = btns[n].getActionCommand();
+            if (!ac.equals(currentQuestion.RightAnswer)
+                && btns[n].isEnabled())
+            {
+                btns[n].setEnabled(false);
+                count++;
+            }
+                
+        }    
     }//GEN-LAST:event_bntFiftyFiftyActionPerformed
 
     private void bntAnswerPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAnswerPerformed
@@ -257,6 +276,7 @@ public class MainWindow extends javax.swing.JFrame {
         currentQuestion = GetQuestion(Level);
         ShowQuestion(currentQuestion);
         lstLevel.setSelectedIndex(lstLevel.getModel().getSize()-Level);
+
     }
    
     private Question GetQuestion(int level)
